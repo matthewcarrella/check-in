@@ -10,8 +10,10 @@ const Todo = ({id, todo, handleCheckIn}) => {
     return (
       
             <Row style={{color: "blue"}}>
-                <Col className="bg-secondary">{todo.name}</Col>
-                <Col className="bg-secondary"><button onClick={() => handleCheckIn(docId)}>click me </button></Col>
+                <Col className="bg-warning"/>
+                <Col className="bg-warning text-center">{todo.name}</Col>
+
+                <Col className="bg-warning"><button onClick={() => handleCheckIn(docId)}>Check In</button></Col>
 
             </Row>
  

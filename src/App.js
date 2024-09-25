@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { TextField, Button } from '@mui/material';
 import Todo from './components/Todo';
 import Tshirt from './components/Tshirt';
+import CheckComplete from './components/CheckComplete';
 import { db } from './firebase.js';
 import { collection, doc, query, orderBy, onSnapshot, getDoc, setDoc, updateDoc, addDoc, serverTimestamp } from 'firebase/firestore';
  import { Container, Row, Col } from 'react-bootstrap';
@@ -59,23 +60,31 @@ if (docSnap.exists()) {
         })
     }, []);
 
+    function checkCompleted() {
+        const filterCompleted = registrants.filter(item => item.data.complete==true);
+        console.log(filterCompleted);
+        if (filterCompleted.length>0) {
+        return filterCompleted; } else { return [{data: {name: ""}}];}}
+
     return (
         <div>
 
-                <h2>Checked in</h2>
-              
-  
-              {   registrants.filter(item => item.data.complete==true).map(ready =>
-                        <h3>{ready.data.name}</h3>)
-                    }
-     <h2>Need T-shirts</h2>
+                <h2 style={{textAlign: "center"}}>Checked in</h2>
+          
+
+               { checkCompleted().map(ready =>
+                       
+                        <CheckComplete key={ready.id}
+                        completer={ready.data}/>)}
+                    
+     <h2 style={{textAlign: "center"}} >Need T-shirts</h2>
         {registrants.filter(x => ((x.data.present & !x.data.complete & x.data.tshirt)==true)).map(walker => <Tshirt key={walker.id} 
                  id={walker.id}
                  handleGiveShirt={handleGiveShirt} 
                  todo={walker.data}/>)}
 
     
-<h2>Yet to arrive</h2>
+<h2 style={{textAlign: "center"}}>Yet to arrive</h2>
  { registrants.filter(x => x.data.present==false).map(arrival =>  <Todo key={arrival.id}
                                                                         id={arrival.id}
                                                                         handleCheckIn={handleCheckIn}

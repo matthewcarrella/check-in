@@ -10,8 +10,9 @@ const Tshirt = ({id, todo, handleGiveShirt}) => {
     return (
       <div style={{color: "red"}}>
             <Row>
-                <Col className="bg-secondary">{todo.name}</Col>
-                <Col className="bg-secondary">{todo.size}</Col>
+                
+                <Col className="bg-secondary text-center">{todo.size}</Col>
+                <Col className="bg-secondary text-center">{todo.name}</Col>
                 <Col className="bg-secondary"><button onClick={() => handleGiveShirt(docId)}>T Given</button></Col>
                 </Row>
  </div>
