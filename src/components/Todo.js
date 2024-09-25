@@ -9,7 +9,7 @@ const Todo = ({id, todo, handleCheckIn}) => {
     
     return (
       
-            <Row style={{color: "blue"}}>
+            <Row style={{color: "blue", fontSize: "25px"}}>
                 <Col className="bg-warning"/>
                 <Col className="bg-warning text-center">{todo.name}</Col>
 

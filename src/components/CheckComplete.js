@@ -9,7 +9,7 @@ const CheckComplete = ({id,  completer, handleGiveShirt}) => {
 
     
     return (
-      <div style={{color: "pink"}}>
+      <div style={{color: "pink", fontSize: "25px"}}>
             <Row>
                 <Col className="bg-success text-center">{final}</Col>
               

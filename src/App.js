@@ -45,6 +45,8 @@ if (docSnap.exists()) {
   }
 
 
+
+
     useEffect(() => {
         console.log("testing");
         onSnapshot(q, (snapshot) => {
@@ -60,36 +62,76 @@ if (docSnap.exists()) {
         })
     }, []);
 
-    function checkCompleted() {
+  function checkYetToArrive() {
+     return registrants.filter(x => x.data.present==false);
+  }
+
+ function checkCompleted() {
         const filterCompleted = registrants.filter(item => item.data.complete==true);
         console.log(filterCompleted);
         if (filterCompleted.length>0) {
         return filterCompleted; } else { return [{data: {name: ""}}];}}
 
+
+        function checkTshirtWait() {
+
+                const filterNeedsTshirts = registrants.filter(x => ((x.data.present & !x.data.complete & x.data.tshirt)==true));
+                if (filterNeedsTshirts.length>0) {
+                    console.log("need tshirts");
+                    return filterNeedsTshirts; } 
+
+                    else { return [{data: {name: ""}}]; }}
+
+
+          async function handleReset() {
+
+          registrants.forEach(async (registrant) => {
+
+        const docRef = doc(db,'participants', registrant.id);
+        const docSnap = await getDoc(docRef);
+if (docSnap.exists()) {
+            const current = docSnap.data();
+     
+            const dataUpdate = {present: false, complete: false};
+            updateDoc(docRef, dataUpdate);
+        } else {
+            alert('No such Id. Please check again');
+}});}
     return (
         <div>
 
-                <h2 style={{textAlign: "center"}}>Checked in</h2>
-          
+          <button onClick={handleReset}>Reset</button>
 
-               { checkCompleted().map(ready =>
+                <h2 style={{textAlign: "center"}}>Checked in</h2>
+                  { checkCompleted().map(ready =>
                        
                         <CheckComplete key={ready.id}
                         completer={ready.data}/>)}
+
+                
+          
+
+                  
                     
      <h2 style={{textAlign: "center"}} >Need T-shirts</h2>
-        {registrants.filter(x => ((x.data.present & !x.data.complete & x.data.tshirt)==true)).map(walker => <Tshirt key={walker.id} 
+      { checkTshirtWait().map(walker =>
+                       <Tshirt key={walker.id} 
                  id={walker.id}
                  handleGiveShirt={handleGiveShirt} 
                  todo={walker.data}/>)}
 
-    
-<h2 style={{textAlign: "center"}}>Yet to arrive</h2>
- { registrants.filter(x => x.data.present==false).map(arrival =>  <Todo key={arrival.id}
+      <h2 style={{textAlign: "center"}}>Yet to arrive</h2>
+                  { checkYetToArrive().map(arrival =>  <Todo key={arrival.id}
                                                                         id={arrival.id}
                                                                         handleCheckIn={handleCheckIn}
-                                                                        todo={arrival.data}/>)} 
-  
+                                                                        todo={arrival.data}/>)}
+
+                  
+
+       
+    
+
+
                     
 
 
