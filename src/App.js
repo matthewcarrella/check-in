@@ -18,7 +18,7 @@ const docRef = doc(db,'participants', id);
 const docSnap = await getDoc(docRef);
 if (docSnap.exists()) {
             const current = docSnap.data();
-            const isComplete = (current.shirt==false && current.tickets==0);
+            const isComplete = (current.tshirt==false && current.tickets==0);
             const dataUpdate = {present: true, complete: isComplete};
             updateDoc(docRef, dataUpdate);
         } else {
@@ -113,7 +113,9 @@ if (docSnap.exists()) {
 
 
           async function handleReset() {
-
+          var i = 0;
+          const tktvalues = [0, 0, 15, 30];
+          const tshirtvalues = [true, true, false, false];
           registrants.forEach(async (registrant) => {
 
         const docRef = doc(db,'participants', registrant.id);
@@ -121,8 +123,9 @@ if (docSnap.exists()) {
 if (docSnap.exists()) {
             const current = docSnap.data();
      
-            const dataUpdate = {present: false, complete: false};
+            const dataUpdate = {present: false, complete: false, tickets: tktvalues[i], tshirt: tshirtvalues[i]};
             updateDoc(docRef, dataUpdate);
+            i++;
         } else {
             alert('No such Id. Please check again');
 }});}
