@@ -3,6 +3,7 @@ import { TextField, Button } from '@mui/material';
 import Todo from './components/Todo';
 import Tshirt from './components/Tshirt';
 import CheckComplete from './components/CheckComplete';
+import Raffles from './components/Raffles';
 import { db } from './firebase.js';
 import { collection, doc, query, orderBy, onSnapshot, getDoc, setDoc, updateDoc, addDoc, serverTimestamp } from 'firebase/firestore';
  import { Container, Row, Col } from 'react-bootstrap';
@@ -17,8 +18,8 @@ const docRef = doc(db,'participants', id);
 const docSnap = await getDoc(docRef);
 if (docSnap.exists()) {
             const current = docSnap.data();
-            const nowComplete = !current.tshirt;
-            const dataUpdate = {present: !current.present, complete: nowComplete};
+            const isComplete = (current.shirt==false && current.tickets==0);
+            const dataUpdate = {present: true, complete: isComplete};
             updateDoc(docRef, dataUpdate);
         } else {
             alert('No such Id. Please check again');
@@ -34,7 +35,8 @@ const docRef = doc(db,'participants', id);
 const docSnap = await getDoc(docRef);
 if (docSnap.exists()) {
             const current = docSnap.data();
-            const dataUpdate = {complete: true};
+            const isComplete = current.tickets==0;
+            const dataUpdate = {complete: isComplete, tshirt: false};
             updateDoc(docRef, dataUpdate);
         } else {
             alert('No such Id. Please check again');
@@ -43,6 +45,24 @@ if (docSnap.exists()) {
 
 
   }
+
+
+    async function handleGiveTickets(id) {
+
+const docRef = doc(db,'participants', id);
+const docSnap = await getDoc(docRef);
+if (docSnap.exists()) {
+            const current = docSnap.data();
+            const dataUpdate = {complete: true, tickets: 0};
+            updateDoc(docRef, dataUpdate);
+        } else {
+            alert('No such Id. Please check again');
+        }
+
+
+
+  }
+
 
 
 
@@ -61,6 +81,15 @@ if (docSnap.exists()) {
             })))
         })
     }, []);
+
+
+    function checkHasTickets() {
+       const filterNeedTickets = registrants.filter(x => x.data.present & !x.data.tshirt & !x.data.complete & x.data.tickets != 0);
+       console.log('ticketholders length: ' + filterNeedTickets.length);
+       if (filterNeedTickets.length > 0) {
+        return filterNeedTickets; } else { return [{data: {name: ""}}]}
+       }
+    
 
   function checkYetToArrive() {
      return registrants.filter(x => x.data.present==false);
@@ -102,12 +131,20 @@ if (docSnap.exists()) {
 
           <button onClick={handleReset}>Reset</button>
 
-                <h2 style={{textAlign: "center"}}>Checked in</h2>
+            <h2 style={{textAlign: "center"}}>Checked in</h2>
                   { checkCompleted().map(ready =>
                        
                         <CheckComplete key={ready.id}
                         completer={ready.data}/>)}
 
+
+          <h2 style={{textAlign: "center"}}>Has Raffle Tickets</h2>
+          {checkHasTickets().map(walker =>  <Raffles key={walker.id} 
+                 id={walker.id}
+                 handleGiveTickets={handleGiveTickets} 
+                 todo={walker.data}/>)}
+
+              
                 
           
 
