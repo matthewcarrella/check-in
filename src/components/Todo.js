@@ -11,7 +11,7 @@ const Todo = ({id, todo, handleCheckIn}) => {
       
             <Row style={{color: "blue", fontSize: "25px"}}>
                 <Col className="bg-warning"/>
-                <Col className="bg-warning text-center">{todo.name}</Col>
+                <Col className="bg-warning text-center">{todo.first}  {todo.last}</Col>
 
                 <Col className="bg-warning"><button onClick={() => handleCheckIn(docId)}>Check In</button></Col>
 

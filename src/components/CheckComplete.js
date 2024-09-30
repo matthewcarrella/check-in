@@ -5,7 +5,8 @@ import Col from "react-bootstrap/Col";
 
 const CheckComplete = ({id,  completer, handleGiveShirt}) => {
     const docId = id;
-    const final = (completer.name=="") ? "NOBODY HERE" : completer.name;
+    const name = completer.first + " " + completer.last;
+    const final = (completer.name=="") ? "NOBODY HERE" : name;
 
     
     return (

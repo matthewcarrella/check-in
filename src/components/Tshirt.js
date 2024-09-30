@@ -5,7 +5,8 @@ import Col from "react-bootstrap/Col";
 
 const Tshirt = ({id, todo, handleGiveShirt}) => {
     const docId = id;
-     const final = (todo.name=="") ? "ALL GOOD FOR NOW" : todo.name;
+    const name = todo.first + " " + todo.last;
+     const final = (todo.name=="") ? "ALL GOOD FOR NOW" : name;
     
     return (
       <div style={{color: "white", fontSize: "25px"}}>

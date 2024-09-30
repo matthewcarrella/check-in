@@ -8,13 +8,13 @@ import { db } from './firebase.js';
 import { collection, doc, query, orderBy, onSnapshot, getDoc, setDoc, updateDoc, addDoc, serverTimestamp } from 'firebase/firestore';
  import { Container, Row, Col } from 'react-bootstrap';
 
-const q = query(collection(db, 'participants'));
+const q =  query(collection(db, 'registrants'), orderBy("last"));
 function App() {
     const [registrants, setRegistrants] = useState([]);
 
     async function handleCheckIn(id) {
 console.log("CHECKING IN" + id);
-const docRef = doc(db,'participants', id);
+const docRef = doc(db,'registrants', id);
 const docSnap = await getDoc(docRef);
 if (docSnap.exists()) {
             const current = docSnap.data();
@@ -31,7 +31,8 @@ if (docSnap.exists()) {
 
   async function handleGiveShirt(id) {
 
-const docRef = doc(db,'participants', id);
+const docRef = doc(db,'registrants', id);
+
 const docSnap = await getDoc(docRef);
 if (docSnap.exists()) {
             const current = docSnap.data();
@@ -49,7 +50,7 @@ if (docSnap.exists()) {
 
     async function handleGiveTickets(id) {
 
-const docRef = doc(db,'participants', id);
+const docRef = doc(db,'registrants', id);
 const docSnap = await getDoc(docRef);
 if (docSnap.exists()) {
             const current = docSnap.data();
@@ -73,7 +74,7 @@ if (docSnap.exists()) {
             console.log("gotsnap");
      
          
-            snapshot.docs.forEach((doc) => console.log(doc.data()));
+            snapshot.docs.forEach((doc) => { console.log('id is'); console.log(doc.id); });
             
             setRegistrants(snapshot.docs.map(doc => ({
                 id: doc.id,
@@ -118,12 +119,13 @@ if (docSnap.exists()) {
           const tshirtvalues = [true, true, false, false];
           registrants.forEach(async (registrant) => {
 
-        const docRef = doc(db,'participants', registrant.id);
+        const docRef = doc(db,'registrants', registrant.id);
         const docSnap = await getDoc(docRef);
 if (docSnap.exists()) {
             const current = docSnap.data();
-     
-            const dataUpdate = {present: false, complete: false, tickets: tktvalues[i], tshirt: tshirtvalues[i]};
+      const dataUpdate = {present: false, complete: false, tickets: 0};
+
+            // const dataUpdate = {present: false, complete: false, tickets: tktvalues[i], tshirt: tshirtvalues[i]};
             updateDoc(docRef, dataUpdate);
             i++;
         } else {
