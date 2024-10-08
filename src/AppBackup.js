@@ -10,7 +10,11 @@ import { collection, doc, query, orderBy, onSnapshot, getDoc, setDoc, updateDoc,
 const q =  query(collection(db, 'registrants'), orderBy("last"));
 function App() {
     const [registrants, setRegistrants] = useState([]);
+     const [show, setShow] = useState(false);
+    
 
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
     async function handleCheckIn(id) {
 console.log("CHECKING IN" + id);
@@ -158,14 +162,46 @@ if (docSnap.exists()) {
                        
                         <CheckComplete key={ready.id}
                         id={ready.id}
-                        completer={ready.data}
-                    
+                        completer={ready.data} show={show}
+                         handleShow={handleShow}
+                          handleClose={handleClose}
                           submitCallback={submitCallback}
             
                          
                  />)}
 
-                   <h2 style={{textAlign: "center"}}>Yet to arrive</h2>
+                  <br/><br/><br/>
+
+          <h2 style={{textAlign: "center"}}>Has Raffle Tickets</h2>
+           <Row style={{textAlign: "center"}}>
+        <Col># of tickets</Col>
+        <Col>Name</Col>
+        <Col>Confirm</Col>
+    </Row>
+          {checkHasTickets().map(walker =>  <Raffles key={walker.id} 
+                 id={walker.id}
+                 handleGiveTickets={handleGiveTickets} 
+                 todo={walker.data}/>)}
+
+              
+                
+          
+
+                  
+                    
+     <h2 style={{textAlign: "center"}} >Need T-shirts</h2>
+     <Row style={{textAlign: "center"}}>
+        <Col>Size</Col>
+        <Col>Name</Col>
+        <Col>Confirm</Col>
+    </Row>
+      { checkTshirtWait().map(walker =>
+                       <Tshirt key={walker.id} 
+                 id={walker.id}
+                 handleGiveShirt={handleGiveShirt} 
+                 todo={walker.data}/>)}
+
+      <h2 style={{textAlign: "center"}}>Yet to arrive</h2>
                   { checkYetToArrive().map(arrival =>  <Todo key={arrival.id}
                                                                         id={arrival.id}
                                                                         handleCheckIn={handleCheckIn}
@@ -181,39 +217,6 @@ if (docSnap.exists()) {
 
 
         </div>
-
-                  // <br/><br/><br/>
-
-    //       <h2 style={{textAlign: "center"}}>Has Raffle Tickets</h2>
-    //        <Row style={{textAlign: "center"}}>
-    //     <Col># of tickets</Col>
-    //     <Col>Name</Col>
-    //     <Col>Confirm</Col>
-    // </Row>
-    //       {checkHasTickets().map(walker =>  <Raffles key={walker.id} 
-    //              id={walker.id}
-    //              handleGiveTickets={handleGiveTickets} 
-    //              todo={walker.data}/>)}
-
-              
-                
-          
-
-                  
-                    
-    //  <h2 style={{textAlign: "center"}} >Need T-shirts</h2>
-    //  <Row style={{textAlign: "center"}}>
-    //     <Col>Size</Col>
-    //     <Col>Name</Col>
-    //     <Col>Confirm</Col>
-    // </Row>
-    //   { checkTshirtWait().map(walker =>
-    //                    <Tshirt key={walker.id} 
-    //              id={walker.id}
-    //              handleGiveShirt={handleGiveShirt} 
-    //              todo={walker.data}/>)}
-
-     
     );
 }
 export default App;

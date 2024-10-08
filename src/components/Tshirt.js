@@ -15,7 +15,7 @@ const Tshirt = ({id, todo, handleGiveShirt}) => {
                 <Col className="bg-secondary text-center">{todo.size}</Col>
                 <Col className="bg-secondary text-center">{final}</Col>
              { (final!="ALL GOOD FOR NOW") ? 
-                <Col className="bg-secondary"><button onClick={() => handleGiveShirt(docId)}>T Given
+                <Col className="bg-secondary text-center"><button onClick={() => handleGiveShirt(docId)}>T Given
                 </button></Col> :  <Col className="bg-secondary"></Col>}             </Row>
  </div>
 

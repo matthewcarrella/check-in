@@ -5,7 +5,7 @@ import Col from "react-bootstrap/Col";
 
 const Raffles = ({id, todo, handleGiveTickets}) => {
     const docId = id;
-     const final = (todo.name=="") ? "NO TICKETS WAITING" : todo.name;
+     const final = (todo.name=="") ? "NO TICKETS WAITING" : (todo.first + " " + todo.last);
     
     return (
       <div style={{color: "white", fontSize: "25px"}}>
