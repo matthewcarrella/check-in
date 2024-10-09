@@ -3,12 +3,12 @@ import ReactDOM from 'react-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 
-import App from './App';
-import App2 from './App2';
+import AppContainer from './AppContainer';
+
 ReactDOM.render( <
     React.StrictMode >
     <
-App2/>
+AppContainer/>
     <
     /React.StrictMode>,
     document.getElementById('root')
