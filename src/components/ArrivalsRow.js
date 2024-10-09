@@ -71,7 +71,7 @@ if (docSnap.exists()) {
       <Col>
         <Row>
 <Col>{tshirtdialog}</Col>
-          <Col><TShirtCheckbox participantNeedsShirt={needShirt} toggleTShirt={toggleShirt}/></Col>
+          <Col><TShirtCheckbox needTee={needShirt} toggleTShirt={toggleShirt}/></Col>
           
         
         </Row>
