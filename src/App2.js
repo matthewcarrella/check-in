@@ -9,6 +9,23 @@ const q =  query(collection(db, 'registrants'), orderBy("last"));
 
 function App2() {
     const [registrants, setRegistrants] = useState([]);
+    const [loggedIn, setLoggedIn] = useState(false);
+    const [pwordInput, setPwordInput] = useState('');
+
+    const handleInput = (event) => {
+        setPwordInput(event.target.value);
+    }
+
+    const SubmitPword = (event) => {
+        event.preventDefault();
+        if (pwordInput=="1234") {
+            setLoggedIn(true);
+        }
+
+    }
+
+    
+   
 
 
 
@@ -68,6 +85,9 @@ if (docSnap.exists()) {
         })
     }, []);
 
+
+    if (loggedIn) {
+
     return (
         <div>
          <button onClick={handleReset}>Reset</button>
@@ -84,8 +104,27 @@ if (docSnap.exists()) {
                    <ParticipantsRegistered participants={registrants} handleCheckIn={handleCheckIn} />
 
 
-        </div>)
+        </div>);
+
+    } else {
+       return (<div>
+       <h3>please log in</h3>
+       <form onSubmit={SubmitPword}>
+      <label>
+      <h3 style={{color:"white", float: "left", marginRight: "10px"}}>Password</h3>
+      <input type="text" value={pwordInput} onChange={handleInput} />
+     </label>
+      
+     <br/>
+      <button type="submit">Submit</button>
+                               </form>
+
+
+       </div>)
+    }
+
 }
+
 
 
  export default App2;
