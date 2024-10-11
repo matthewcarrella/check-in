@@ -39,7 +39,7 @@ async function registerUser(event) {
   tickets: noTickets,
   tshirt: tshirt,
   present: false,
-  completed: false
+  complete: false
 };
 
 event.preventDefault(); // Prevent default form submission
