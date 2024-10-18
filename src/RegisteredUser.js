@@ -5,6 +5,8 @@ import Row from 'react-bootstrap/Row';
 import { db } from './firebase.js';
 import { collection, doc, query, orderBy, onSnapshot, getDoc, setDoc, updateDoc, addDoc, serverTimestamp } from 'firebase/firestore';
 import { CookiesProvider, useCookies } from 'react-cookie'
+import UserCompleted from './UserCompleted';
+
 const q =  query(collection(db, 'registrants'), orderBy("last"));
 
 const RegisteredUser = ({userId}) => {
@@ -33,9 +35,13 @@ const RegisteredUser = ({userId}) => {
 
 	return (
     <div>
-     { data && (
+
+
+     { data &&  (
+
 
      <div>
+     <UserCompleted isComplete={data.complete} isPresent={data.present}/>
         <h3 style={{color: "white"}}>{data.first}</h3>
         <h3 style={{color: "white"}}>{data.tickets} tickets</h3>
        { (data.tshirt) ? <h3 style={{color: "white"}}>size: {data.size}</h3> : <h3 style={{color: "white"}}>no shirt</h3> }
