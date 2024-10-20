@@ -7,11 +7,12 @@ import { collection, doc, query, orderBy, onSnapshot, getDoc, setDoc, updateDoc,
 import { CookiesProvider, useCookies } from 'react-cookie';
 import RegisteredUser from './RegisteredUser';
 
-const q =  query(collection(db, 'registrants'), orderBy("last"));
+const q =  query(collection(db, 'all_registrants'));
 
-const User = () => {
+const User = ({events}) => {
+  const currentEvents = events;
 
-	const [cookies, setCookie] = useCookies(['checkinuserid1', 'checkinfirst']);
+	const [cookies, setCookie] = useCookies(['checkinuserid2', 'checkinfirst2']);
 
 	const [inputValue, setInputValue] = useState('');
 	const [tshirt, setTshirt] = useState(false);
@@ -34,29 +35,32 @@ const User = () => {
 async function registerUser(event) {
 	const data = {
   first: inputValue,
-  last: 'Ross',
-  size: 'large',
-  tickets: noTickets,
-  tshirt: tshirt,
-  present: false,
-  complete: false
+  // last: 'Ross',
+  // size: 'large',
+  // tickets: noTickets,
+  // tshirt: tshirt,
+  // present: false,
+  // complete: false
 };
 
 event.preventDefault(); // Prevent default form submission
 
    
 
-const docRef = await addDoc(collection(db, 'registrants'), data);
+const docRef = await addDoc(collection(db, 'all_registrants'), data);
 
 
 console.log("registered user with id: " + docRef.id);
-setCookie('checkinuserid1', docRef.id, { path: '/'});
-setCookie('checkinfirst', inputValue, { path: '/'});
+console.log("registered to all_participants");
+setCookie('checkinuserid2', docRef.id, { path: '/'});
+setCookie('checkinfirst2', inputValue, { path: '/'});
+
+
  
 }
 
   
-
+console.log('CURRENT EVENTS ARE' + currentEvents);
 
 	return (
 
@@ -71,7 +75,7 @@ setCookie('checkinfirst', inputValue, { path: '/'});
 					<Col>
 					
       						<div>
-        						{cookies.checkinuserid1 ? <RegisteredUser userId={cookies.checkinuserid1}/>: 
+        						{cookies.checkinuserid2 ? <RegisteredUser userId={cookies.checkinuserid2} currentEvents={currentEvents}/>: 
 
         							 <form onSubmit={registerUser}>
        <label>
@@ -79,15 +83,7 @@ setCookie('checkinfirst', inputValue, { path: '/'});
       <input type="text" value={inputValue} onChange={handleChange} />
       </label>
       <br/>
-      <label>
-       <h3 style={{color:"white", float: "left", marginRight: "10px"}}>No Tickets</h3>
-      <input type="text" value={noTickets} onChange={handleChangeNoTickets}/>
-      </label>
-      <br/>
-      <label>
-       <h3 style={{color:"white", float: "left", marginRight: "10px"}}>T-Shirt</h3>
-      <input type="checkbox" checked={tshirt} onChange={handleCheckChange}/>
-      </label>
+
       <br/>
       <button type="submit">Submit</button>
         						</form>}
@@ -100,3 +96,4 @@ setCookie('checkinfirst', inputValue, { path: '/'});
 }
 
 export default User;
+
